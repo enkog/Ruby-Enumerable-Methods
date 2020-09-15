@@ -50,4 +50,14 @@ module Enumerable
     end
   end
 
+  # my_none method
+  def my_none?(args = nil)
+    return to_enum unless block_given?
+
+    if args.nil?
+      my_each { |i| return false if yield i }
+      true
+    end
+  end
+
 end
