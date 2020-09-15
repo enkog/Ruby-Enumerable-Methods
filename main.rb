@@ -84,4 +84,15 @@ module Enumerable
     end
     arr
   end
+
+  # my_inject method
+  def my_inject(acc = 0)
+    my_each { |a| acc = yield(acc, a) }
+    acc
+  end
+end
+
+# multiply_els method
+def multiply_els(arr)
+    arr.my_inject(1) { |acc, b| acc * b }
 end
