@@ -30,4 +30,14 @@ module Enumerable
     arr
   end
 
+ # my_all method
+ def my_all?(args = nil)
+  return to_enum unless block_given?
+
+  if args.nil?
+    my_each { |i| return false unless yield i }
+    true
+  end
+end
+
 end
