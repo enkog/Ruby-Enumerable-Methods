@@ -70,4 +70,18 @@ module Enumerable
     end
     count
   end
+
+  # my_map method
+  def my_map(proc = nil)
+    puts 'in the map'
+    return to_enum unless block_given? || proc
+
+    arr = []
+    if proc
+      my_each { |i| arr << proc.call(i) }
+    else
+      my_each { |i| arr << yield(i) }
+    end
+    arr
+  end
 end
