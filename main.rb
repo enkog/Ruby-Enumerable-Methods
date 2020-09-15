@@ -1,5 +1,5 @@
 module Enumerable
-# my_each method
+  # my_each method
   def my_each
     return to_enum unless block_given?
 
@@ -10,7 +10,7 @@ module Enumerable
     end
   end
 
-# my_each_with_index method
+  # my_each_with_index method
   def my_each_with_index
     return to_enum unless block_given?
 
@@ -21,7 +21,7 @@ module Enumerable
     end
   end
 
-# my_select method
+  # my_select method
   def my_select
     return to_enum unless block_given?
 
@@ -30,7 +30,7 @@ module Enumerable
     arr
   end
 
-# my_all method
+  # my_all method
   def my_all?(args = nil)
     return to_enum unless block_given?
 
@@ -40,7 +40,7 @@ module Enumerable
     end
   end
 
-# my_any method
+  # my_any method
   def my_any?(args = nil)
     return to_enum unless block_given?
 
@@ -50,7 +50,7 @@ module Enumerable
     end
   end
 
-# my_none method
+  # my_none method
   def my_none?(args = nil)
     return to_enum unless block_given?
 
@@ -60,7 +60,7 @@ module Enumerable
     end
   end
 
-# my_count method
+  # my_count method
   def my_count(args = nil)
     count = 0
     if args.nil?
@@ -94,5 +94,5 @@ end
 
 # multiply_els method
 def multiply_els(arr)
-    arr.my_inject(1) { |acc, b| acc * b }
+  arr.my_inject(1) { |acc, b| acc * b }
 end
