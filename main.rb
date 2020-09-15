@@ -50,7 +50,7 @@ module Enumerable
     end
   end
 
-  # my_none method
+# my_none method
   def my_none?(args = nil)
     return to_enum unless block_given?
 
@@ -60,4 +60,14 @@ module Enumerable
     end
   end
 
+# my_count method
+  def my_count(args = nil)
+    count = 0
+    if args.nil?
+      block_given? ? to_a.my_each { |i| count += 1 if yield(i) } : count = to_a.length
+    else
+      to_a.my_each { |i| count += 1 if args == i }
+    end
+    count
+  end
 end
