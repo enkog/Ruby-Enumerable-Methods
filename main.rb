@@ -38,41 +38,41 @@ module Enumerable
       my_each { |i| return false unless yield i }
       return true
     elsif args.nil?
-      my_each { |i| return false if i == nil }
+      my_each { |i| return false if i.nil? }
     elsif !args.nil? && args.is_a?(Class)
       my_each { |i| return false unless i.class != args }
     elsif !args.nil? && args.class == Regexp
       my_each { |i| return false unless args.match(i) }
     else
-      my_each { |i| return false if i != args}
+      my_each { |i| return false if i != args }
     end
     true
   end
 
   # my_any method
-  def my_all?(args = nil)
+  def my_any?(args = nil)
     if block_given?
-      my_each { |i| return true unless yield i }
+      my_each { |i| return true if yield i }
       return false
     elsif args.nil?
-      my_each { |i| return true if i == nil }
+      my_each { |i| return true if i }
     elsif !args.nil? && args.is_a?(Class)
-      my_each { |i| return true unless i.class != args }
+      my_each { |i| return true if i.class != args }
     elsif !args.nil? && args.class == Regexp
-      my_each { |i| return true unless args.match(i) }
+      my_each { |i| return true if args.match(i) }
     else
-      my_each { |i| return true if i != args}
+      my_each { |i| return true if i != args }
     end
     false
   end
 
   # my_none method
   def my_none?(args = nil)
-    return to_enum unless block_given?
-
-    if args.nil?
+    if block_given?
       my_each { |i| return false if yield i }
       true
+    else
+      !my_any?(args)
     end
   end
 
@@ -89,7 +89,6 @@ module Enumerable
 
   # my_map method
   def my_map(proc = nil)
-    puts 'in the map'
     return to_enum unless block_given? || proc
 
     arr = []
@@ -110,5 +109,5 @@ end
 
 # multiply_els method
 def multiply_els(arr)
-  arr.my_inject(1) { |acc, b| acc * b }
+  arr.my_inject { |acc, b| acc * b }
 end

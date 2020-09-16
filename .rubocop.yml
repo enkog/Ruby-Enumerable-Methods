@@ -17,6 +17,10 @@ Metrics/BlockLength:
   ExcludedMethods: ['describe']
   Max: 30
 
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
 Style/GuardClause:
   Enabled: false
 Style/Documentation:
