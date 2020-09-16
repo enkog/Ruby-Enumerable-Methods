@@ -130,7 +130,6 @@ module Enumerable
         arr.my_each { |a| result -= a }
         result
       when :*
-        result = 1
         arr.my_each { |a| result *= a }
         result
       end
@@ -147,5 +146,8 @@ end
 def multiply_els(arr)
   arr.my_inject { |acc, b| acc * b }
 end
+
+range = Range.new(5, 50)
+puts range.my_inject(2, :*)
 
 
