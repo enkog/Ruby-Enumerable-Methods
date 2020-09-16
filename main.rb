@@ -1,13 +1,14 @@
 module Enumerable
   # my_each method
   def my_each
-    return to_enum unless block_given?
+    return to_enum(:each) unless block_given?
 
     i = 0
     while i < to_a.length
       yield to_a[i]
       i += 1
     end
+    self
   end
 
   # my_each_with_index method
@@ -19,6 +20,7 @@ module Enumerable
       yield(to_a[i], i)
       i += 1
     end
+    self
   end
 
   # my_select method
@@ -32,22 +34,36 @@ module Enumerable
 
   # my_all method
   def my_all?(args = nil)
-    return to_enum unless block_given?
-
-    if args.nil?
+    if block_given?
       my_each { |i| return false unless yield i }
-      true
+      return true
+    elsif args.nil?
+      my_each { |i| return false if i == nil }
+    elsif !args.nil? && args.is_a?(Class)
+      my_each { |i| return false unless i.class != args }
+    elsif !args.nil? && args.class == Regexp
+      my_each { |i| return false unless args.match(i) }
+    else
+      my_each { |i| return false if i != args}
     end
+    true
   end
 
   # my_any method
-  def my_any?(args = nil)
-    return to_enum unless block_given?
-
-    if args.nil?
-      my_each { |i| return true if yield i }
-      false
+  def my_all?(args = nil)
+    if block_given?
+      my_each { |i| return true unless yield i }
+      return false
+    elsif args.nil?
+      my_each { |i| return true if i == nil }
+    elsif !args.nil? && args.is_a?(Class)
+      my_each { |i| return true unless i.class != args }
+    elsif !args.nil? && args.class == Regexp
+      my_each { |i| return true unless args.match(i) }
+    else
+      my_each { |i| return true if i != args}
     end
+    false
   end
 
   # my_none method
