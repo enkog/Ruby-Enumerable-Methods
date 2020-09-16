@@ -1,8 +1,9 @@
 module Enumerable
   # my_each method
   def my_each
-    arr=self.to_a
+    arr = to_a
     return arr.to_enum unless block_given?
+
     i = 0
     while i < arr.size
       yield arr[i]
@@ -101,21 +102,21 @@ module Enumerable
 
   # my_inject method
   def my_inject(acc = 0)
-    result=0
-    arr=self
-    arr=arr.to_a
+    result = 0
+    arr = self
+    arr = arr.to_a
     if acc.is_a?(Symbol)
       case acc
-        when :+
-           arr.my_each {|a| result=result+a}
-           return result
-          when :-
-            arr.my_each {|a| result=result-a}
-            return result
-          when :*
-            result=1
-            arr.my_each {|a| result=result*a}
-            return result
+      when :+
+        arr.my_each { |a| result += a }
+        result
+      when :-
+        arr.my_each { |a| result -= a }
+        result
+      when :*
+        result = 1
+        arr.my_each { |a| result *= a }
+        result
       end
     else
       arr.my_each { |a| acc = yield(acc, a) }
