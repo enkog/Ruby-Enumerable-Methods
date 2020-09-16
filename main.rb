@@ -2,6 +2,7 @@ module Enumerable
   # my_each method
   def my_each(*args)
     arr = to_a
+    return arr.to_enum unless block_given?
     if args.none?
         i = 0
       while i < arr.size
@@ -72,7 +73,7 @@ module Enumerable
   # my_none method
   def my_none?(args = nil)
     if block_given?
-      my_each { |i| return false if yield i }
+      my_each { |i| return true if yield i }
       true
     else
       !my_any?(args)
@@ -102,17 +103,26 @@ module Enumerable
     end
     arr
   end
-end
-
-module Injection
-  include Enumerable
-  # my_inject method
-  def my_inject(acc = 0)
+   # my_inject method
+   def my_inject(*acc)
     result = 0
-    arr = self
-    arr = arr.to_a
-    if acc.is_a?(Symbol)
-      case acc
+    arr = self.to_a
+    if acc.size==1 && acc[0].is_a?(Symbol)
+      case acc[0]
+      when :+
+        arr.my_each { |a| result += a }
+        result
+      when :-
+        arr.my_each { |a| result -= a }
+        result
+      when :*
+        result = 1
+        arr.my_each { |a| result *= a }
+        result
+      end
+    elsif acc.size==2
+      result=acc[0]
+      case acc[1]
       when :+
         arr.my_each { |a| result += a }
         result
@@ -131,14 +141,11 @@ module Injection
   end
 end
 
+
+
 # multiply_els method
 def multiply_els(arr)
   arr.my_inject { |acc, b| acc * b }
 end
 
-# pr=Proc.new{|x| x}
-# a = [1, 2, 3]
-# p a.my_any?(Integer)
 
-words = %w[dog door rod blade]
-p words.my_any?('cat')
