@@ -99,7 +99,10 @@ module Enumerable
     end
     arr
   end
+end
 
+module Injection
+  include Enumerable
   # my_inject method
   def my_inject(acc = 0)
     result = 0
@@ -129,3 +132,6 @@ end
 def multiply_els(arr)
   arr.my_inject { |acc, b| acc * b }
 end
+
+a = [1, 2, 3]
+puts a.inject(:+)
