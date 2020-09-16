@@ -1,14 +1,17 @@
 module Enumerable
   # my_each method
-  def my_each
+  def my_each(*args)
     arr = to_a
-    return arr.to_enum unless block_given?
-
-    i = 0
-    while i < arr.size
-      yield arr[i]
-      i += 1
+    if args.none?
+        i = 0
+      while i < arr.size
+        yield arr[i]
+        i += 1
+      end
+    else 
+      Proc.call(args)
     end
+    self
   end
 
   # my_each_with_index method
@@ -40,7 +43,7 @@ module Enumerable
     elsif args.nil?
       my_each { |i| return false if i.nil? }
     elsif !args.nil? && args.is_a?(Class)
-      my_each { |i| return false unless i.class != args }
+      my_each { |i| return false unless i.class == args }
     elsif !args.nil? && args.class == Regexp
       my_each { |i| return false unless args.match(i) }
     else
@@ -57,11 +60,11 @@ module Enumerable
     elsif args.nil?
       my_each { |i| return true if i }
     elsif !args.nil? && args.is_a?(Class)
-      my_each { |i| return true if i.class != args }
+      my_each { |i| return true if i.class == args }
     elsif !args.nil? && args.class == Regexp
       my_each { |i| return true if args.match(i) }
     else
-      my_each { |i| return true if i != args }
+      my_each { |i| return true if i == args }
     end
     false
   end
@@ -133,5 +136,9 @@ def multiply_els(arr)
   arr.my_inject { |acc, b| acc * b }
 end
 
-a = [1, 2, 3]
-puts a.inject(:+)
+# pr=Proc.new{|x| x}
+# a = [1, 2, 3]
+# p a.my_any?(Integer)
+
+words = %w[dog door rod blade]
+p words.my_any?('cat')
