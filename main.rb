@@ -35,12 +35,12 @@ module Enumerable
   # my_all method
   def my_all?(args = nil)
     if block_given?
-      my_each { |i| return false if yield i == false }
+      my_each { |i| return false if yield(i) == false }
       return true
     elsif args.nil?
       my_each { |i| return false if i.nil? || i == false }
-    elsif !args.nil? && args.is_a?(Class)
-      my_each { |i| return false unless args != [i.class] }
+    elsif !args.nil? && (args.is_a? Class)
+      my_each { |i| return false unless [i.class].include?(args) }
     elsif !args.nil? && args.class == Regexp
       my_each { |i| return false unless args.match(i) }
     else
@@ -52,16 +52,16 @@ module Enumerable
   # my_any method
   def my_any?(args = nil)
     if block_given?
-      my_each { |i| return true if yield i }
+      to_a.my_each { |i| return true if yield(i) }
       return false
     elsif args.nil?
-      my_each { |i| return true if i }
-    elsif !args.nil? && args.is_a?(Class)
-      my_each { |i| return true if args != [i.class] }
+      to_a.my_each { |i| return true if i }
+    elsif !args.nil? && (args.is_a? Class)
+      to_a.my_each { |i| return true if [i.class].include?(args) }
     elsif !args.nil? && args.class == Regexp
-      my_each { |i| return true if args.match(i) }
+      to_a.my_each { |i| return true if args.match(i) }
     else
-      my_each { |i| return true if i == args }
+      to_a.my_each { |i| return true if i == args }
     end
     false
   end
@@ -107,39 +107,11 @@ module Enumerable
   end
 
   # my_inject method
-  def my_inject(*acc)
-    result = 0
-    arr = to_a
-    if acc.size == 1 && acc[0].is_a?(Symbol)
-      case acc[0]
-      when :+
-        arr.my_each { |a| result += a }
-        result
-      when :-
-        arr.my_each { |a| result -= a }
-        result
-      when :*
-        result = 1
-        arr.my_each { |a| result *= a }
-        result
-      end
-    elsif acc.size == 2
-      result = acc[0]
-      case acc[1]
-      when :+
-        arr.my_each { |a| result += a }
-        result
-      when :-
-        arr.my_each { |a| result -= a }
-        result
-      when :*
-        arr.my_each { |a| result *= a }
-        result
-      end
-    else
-      arr.my_each { |a| acc = yield(acc, a) }
-      acc
-    end
+  def my_inject(*args)
+    initial = args.length.positive?
+    acc = initial ? args[0] : self[0]
+    drop(initial ? 0 : 1).my_each { |i| acc = yield(acc, i) }
+    acc
   end
 end
 
