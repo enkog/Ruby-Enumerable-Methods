@@ -107,11 +107,39 @@ module Enumerable
   end
 
   # my_inject method
-  def my_inject(*args)
-    initial = args.length.positive?
-    acc = initial ? args[0] : self[0]
-    drop(initial ? 0 : 1).my_each { |i| acc = yield(acc, i) }
-    acc
+  def my_inject(*acc)
+    result = 0
+    arr = to_a
+    if acc.size == 1 && acc[0].is_a?(Symbol)
+      case acc[0]
+      when :+
+        arr.my_each { |a| result += a }
+        result
+      when :-
+        arr.my_each { |a| result -= a }
+        result
+      when :*
+        result = 1
+        arr.my_each { |a| result *= a }
+        result
+      end
+    elsif acc.size == 2
+      result = acc[0]
+      case acc[1]
+      when :+
+        arr.my_each { |a| result += a }
+        result
+      when :-
+        arr.my_each { |a| result -= a }
+        result
+      when :*
+        arr.my_each { |a| result *= a }
+        result
+      end
+    else
+      arr.my_each { |a| acc = yield(acc, a) }
+      acc
+    end
   end
 end
 
