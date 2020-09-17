@@ -112,18 +112,8 @@ module Enumerable
     arr = to_a
     if acc.size == 1
       if acc[0].is_a?(Symbol)
-        case acc[0]
-        when :+
-          arr.my_each { |a| result += a }
-          result
-        when :-
-          arr.my_each { |a| result -= a }
-          result
-        when :*
-          result = 1
-          arr.my_each { |a| result *= a }
-          result
-        end
+        arr.my_each { |a| result = a.send(acc[0]) }
+        result
       elsif acc[0].is_a?(Integer)
         k = acc[0]
         arr.my_each { |a| k = yield(k, a) }
@@ -131,17 +121,8 @@ module Enumerable
       end
     elsif acc.size == 2
       result = acc[0]
-      case acc[1]
-      when :+
-        arr.my_each { |a| result += a }
-        result
-      when :-
-        arr.my_each { |a| result -= a }
-        result
-      when :*
-        arr.my_each { |a| result *= a }
-        result
-      end
+      arr.my_each { |a| result = a.send(acc[1]) }
+      result
     else
       k = 0
       k = if arr[0].is_a?(String)
@@ -159,3 +140,5 @@ end
 def multiply_els(arr)
   arr.my_inject { |acc, b| acc * b }
 end
+
+p [1, 2, 3, 4].inject(2, :*)
