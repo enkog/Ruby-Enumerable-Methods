@@ -143,13 +143,13 @@ module Enumerable
         result
       end
     else
-      if arr[0].is_a?(String)
-        k="a"
-        arr.my_each { |a| k = yield(k, a) }
-      else
-        k = 1
-        arr.my_each { |a| k = yield(k, a) }
-      end
+      k = 0
+      k = if arr[0].is_a?(String)
+            'a'
+          else
+            1
+          end
+      arr.my_each { |a| k = yield(k, a) }
       k
     end
   end
@@ -159,6 +159,3 @@ end
 def multiply_els(arr)
   arr.my_inject { |acc, b| acc * b }
 end
-
-range = Range.new(5, 50)
-puts range.my_inject { |prod, n| prod * n }
