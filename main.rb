@@ -110,7 +110,8 @@ module Enumerable
   def my_inject(*acc)
     result = 0
     arr = to_a
-    if acc.size == 1 && acc[0].is_a?(Symbol)
+    if acc.size == 1 
+      if acc[0].is_a?(Symbol)
       case acc[0]
       when :+
         arr.my_each { |a| result += a }
@@ -123,6 +124,11 @@ module Enumerable
         arr.my_each { |a| result *= a }
         result
       end
+    elsif acc[0].is_a?(Integer)
+      k=acc[0]
+      arr.my_each { |a| k = yield(k, a) }
+      k
+    end
     elsif acc.size == 2
       result = acc[0]
       case acc[1]
@@ -137,8 +143,9 @@ module Enumerable
         result
       end
     else
-      arr.my_each { |a| acc = yield(acc, a) }
-      acc
+      k=0
+      arr.my_each { |a| k=yield(k, a) }
+      k
     end
   end
 end
@@ -147,3 +154,4 @@ end
 def multiply_els(arr)
   arr.my_inject { |acc, b| acc * b }
 end
+
