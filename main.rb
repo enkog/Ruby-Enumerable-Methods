@@ -35,12 +35,12 @@ module Enumerable
   # my_all method
   def my_all?(args = nil)
     if block_given?
-      my_each { |i| return false unless yield i }
+      my_each { |i| return false if yield i == false }
       return true
     elsif args.nil?
-      my_each { |i| return false if i.nil? }
+      my_each { |i| return false if i.nil? || i == false }
     elsif !args.nil? && args.is_a?(Class)
-      my_each { |i| return false unless i.class != args }
+      my_each { |i| return false unless args != [i.class] }
     elsif !args.nil? && args.class == Regexp
       my_each { |i| return false unless args.match(i) }
     else
@@ -57,23 +57,29 @@ module Enumerable
     elsif args.nil?
       my_each { |i| return true if i }
     elsif !args.nil? && args.is_a?(Class)
-      my_each { |i| return true if i.class != args }
+      my_each { |i| return true if args != [i.class] }
     elsif !args.nil? && args.class == Regexp
       my_each { |i| return true if args.match(i) }
     else
-      my_each { |i| return true if i != args }
+      my_each { |i| return true if i == args }
     end
     false
   end
 
   # my_none method
-  def my_none?(args = nil)
+  def my_none?(arg = nil)
     if block_given?
       my_each { |i| return false if yield i }
-      true
+    elsif arg.nil?
+      my_each { |i| return false if i }
+    elsif arg.is_a?(Class)
+      my_each { |i| return false if i.class == arg }
+    elsif arg.class == Regexp
+      my_each { |i| return false if arg.match(i) }
     else
-      !my_any?(args)
+      my_each { |i| return false if i == arg }
     end
+    true
   end
 
   # my_count method
@@ -89,7 +95,7 @@ module Enumerable
 
   # my_map method
   def my_map(proc = nil)
-    return to_enum unless block_given? || proc
+    return to_enum unless block_given? || !proc.nil?
 
     arr = []
     if proc
@@ -101,9 +107,39 @@ module Enumerable
   end
 
   # my_inject method
-  def my_inject(acc = 0)
-    my_each { |a| acc = yield(acc, a) }
-    acc
+  def my_inject(*acc)
+    result = 0
+    arr = to_a
+    if acc.size == 1 && acc[0].is_a?(Symbol)
+      case acc[0]
+      when :+
+        arr.my_each { |a| result += a }
+        result
+      when :-
+        arr.my_each { |a| result -= a }
+        result
+      when :*
+        result = 1
+        arr.my_each { |a| result *= a }
+        result
+      end
+    elsif acc.size == 2
+      result = acc[0]
+      case acc[1]
+      when :+
+        arr.my_each { |a| result += a }
+        result
+      when :-
+        arr.my_each { |a| result -= a }
+        result
+      when :*
+        arr.my_each { |a| result *= a }
+        result
+      end
+    else
+      arr.my_each { |a| acc = yield(acc, a) }
+      acc
+    end
   end
 end
 
