@@ -40,7 +40,7 @@ module Enumerable
     elsif args.nil?
       my_each { |i| return false if i.nil? || i == false }
     elsif !args.nil? && (args.is_a? Class)
-      my_each { |i| return false unless [i.class].include?(args) }
+      my_each { |i| return false unless i.is_a?(args) }
     elsif !args.nil? && args.class == Regexp
       my_each { |i| return false unless args.match(i) }
     else
@@ -57,7 +57,7 @@ module Enumerable
     elsif args.nil?
       to_a.my_each { |i| return true if i }
     elsif !args.nil? && (args.is_a? Class)
-      to_a.my_each { |i| return true if [i.class].include?(args) }
+      to_a.my_each { |i| return true if i.is_a?(args) }
     elsif !args.nil? && args.class == Regexp
       to_a.my_each { |i| return true if args.match(i) }
     else
@@ -143,7 +143,7 @@ module Enumerable
         result
       end
     else
-      k = 0
+      k = 1
       arr.my_each { |a| k = yield(k, a) }
       k
     end
@@ -154,3 +154,6 @@ end
 def multiply_els(arr)
   arr.my_inject { |acc, b| acc * b }
 end
+
+search = proc { |memo, word| memo.length > word.length ? memo : word }
+puts ["dog", "cat"].my_inject(&search)
