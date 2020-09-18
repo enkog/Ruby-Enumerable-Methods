@@ -109,7 +109,7 @@ module Enumerable
   # my_inject method
   def my_inject(*acc)
     arr = to_a
-    return arr.to_enum if !block_given? && acc[0].nil? && acc[1].nil?
+    return raise LocalJumpError, 'no block given' if !block_given? && acc[0].nil? && acc[1].nil?
 
     if acc.size == 1
       if acc[0].is_a?(Symbol)
@@ -141,3 +141,5 @@ end
 def multiply_els(arr)
   arr.my_inject { |acc, b| acc * b }
 end
+
+p [2, 3, 6].my_inject
