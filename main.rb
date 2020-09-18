@@ -108,11 +108,15 @@ module Enumerable
 
   # my_inject method
   def my_inject(*acc)
-    result = 0
     arr = to_a
+    return arr.to_enum if !block_given? && acc[0].nil? && acc[1].nil?
+
     if acc.size == 1
       if acc[0].is_a?(Symbol)
-        arr.my_each { |a| result = a.send(acc[0]) }
+        result = arr[0]
+        (arr.length - 1).times do |i|
+          result = arr[i + 1].send(acc[0], result)
+        end
         result
       elsif acc[0].is_a?(Integer)
         k = acc[0]
@@ -121,17 +125,14 @@ module Enumerable
       end
     elsif acc.size == 2
       result = acc[0]
-      arr.my_each { |a| result = a.send(acc[1]) }
+      arr.my_each { |a| result = a.send(acc[1], result) }
       result
     else
-      k = 0
-      k = if arr[0].is_a?(String)
-            'a'
-          else
-            1
-          end
-      arr.my_each { |a| k = yield(k, a) }
-      k
+      accum = arr[0]
+      (arr.length - 1).times do |i|
+        accum = yield(accum, arr[i + 1])
+      end
+      accum
     end
   end
 end
@@ -140,5 +141,3 @@ end
 def multiply_els(arr)
   arr.my_inject { |acc, b| acc * b }
 end
-
-p [1, 2, 3, 4].inject(2, :*)
