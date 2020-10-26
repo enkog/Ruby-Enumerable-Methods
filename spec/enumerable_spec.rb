@@ -18,7 +18,7 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'returns every value of the number array in the existing order' do
-      expect(num_arr.my_each { |x| x }).to eq(num_arr.each { |x| x})
+      expect(num_arr.my_each { |x| x }).to eq(num_arr.each { |x| x })
     end
 
     it 'returns every value of the range in the existing order' do
@@ -26,7 +26,7 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'returns every value of the hash in the existing order' do
-      expect(test_hash.my_each { |k, _v| k }).to eq(test_hash.each { |k, _v| k})
+      expect(test_hash.my_each { |k, _v| k }).to eq(test_hash.each { |k, _v| k })
     end
   end
 
