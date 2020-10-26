@@ -7,7 +7,6 @@ RSpec.describe 'Enumerable' do
   let(:test_arr) { %w[hello hi dog] }
   let(:test_proc) { proc { |num| num * 2 } }
   let(:test_search) { proc { |memo, word| memo.length > word.length ? memo : word } }
-
   # my_each method
   context '#my_each' do
     it 'returns an enumerator if no block is given' do
@@ -66,6 +65,116 @@ RSpec.describe 'Enumerable' do
 
     it 'returns all elements of the array for which the block returns a true' do
       expect(test_range.my_select(&:even?)).to eql([2, 4])
+    end
+  end
+
+  context "my_any?" do
+    it 'return true if any element of the array satisfies the condition given as an argument' do
+      expect(num_arr.my_any?(Numeric)).to eq(true)
+    end
+
+    it 'return true if any element of the array for which the block returns true' do
+      expect([10,18,19].my_any?{|num| num>13}).to eq(true)
+    end
+
+    it 'return false if any element of the array for which the block returns false' do
+      expect([10,18,19].my_any?{|num| num>=20}).to eq(false)
+    end
+
+    it 'return true if any element of the array matches the regular expression' do
+      expect(test_arr.my_any?(/h/)).to eq(true)
+    end
+
+    it 'return false if any element of the array does not match the regular expression' do
+      expect(test_arr.my_any?(/D/)).to eq(false)
+    end
+
+    it 'return false if any element of the hash does not match the regular expression' do
+      expect(test_hash.my_any? {|k, v| v.is_a? String}).to eq(false)
+    end
+
+    it 'return true if any element of the hash does not match the regular expression' do
+      expect(test_hash.my_any? {|k, v| v.is_a? Integer}).to eq(true)
+    end
+    
+    it 'checks if any element of the range is negative' do
+      expect(test_range.my_any?(&:negative?)).to eq(false)
+    end
+
+    it 'checks if any element of the range is positive' do
+      expect((-2..4).my_any?(&:positive?)).to eq(true)
+    end
+  end
+
+  context "my_all?" do
+    it 'return true if all element of the array satisfies the condition given as an argument' do
+      expect(num_arr.my_all?(Numeric)).to eq(true)
+    end
+
+    it 'return true if all element of the array for which the block returns true' do
+      expect([10,18,19].my_all?{|num| num>9}).to eq(true)
+    end
+
+    it 'return false if all element of the array for which the block returns false' do
+      expect([10,18,19].my_all?{|num| num>=20}).to eq(false)
+    end
+
+    it 'return false if all element of the array does not match the regular expression' do
+      expect(test_arr.my_all?(/D/)).to eq(false)
+    end
+
+    it 'return false if all element of the hash does not match the regular expression' do
+      expect(test_hash.my_all? {|k, v| v.is_a? String}).to eq(false)
+    end
+
+    it 'return true if all element of the hash does not match the regular expression' do
+      expect(test_hash.my_all? {|k, v| v.is_a? Integer}).to eq(true)
+    end
+    
+    it 'checks if all element of the range is negative' do
+      expect(test_range.my_all?(&:negative?)).to eq(false)
+    end
+
+    it 'checks if all element of the range is positive' do
+      expect(test_range.my_all?(&:positive?)).to eq(true)
+    end
+  end
+
+  context "my_none?" do
+    it 'return true if none element of the array satisfies the condition given as an argument' do
+      expect(num_arr.my_none?(String)).to eq(true)
+    end
+
+    it 'return true if none element of the array for which the block returns true' do
+      expect([10,18,19].my_none?{|num| num<9}).to eq(true)
+    end
+
+    it 'return false if none element of the array for which the block returns false' do
+      expect([10,18,19].my_none?{|num| num<=20}).to eq(false)
+    end
+
+    it 'return true if none element of the array does not match the regular expression' do
+      expect(test_arr.my_none?(/D/)).to eq(true)
+    end
+
+    it 'return false if none element of the array does not match the regular expression' do
+      expect(test_arr.my_none?(/d/)).to eq(false)
+    end
+
+    it 'return false if none element of the hash does not match the regular expression' do
+      expect(test_hash.my_none? {|k, v| v.is_a? String}).to eq(true)
+    end
+
+    it 'return true if none element of the hash does not match the regular expression' do
+      expect(test_hash.my_none? {|k, v| v.is_a? Integer}).to eq(false)
+    end
+    
+    it 'checks if none element of the range is negative' do
+      expect(test_range.my_none?(&:negative?)).to eq(true)
+    end
+
+    it 'checks if none element of the range is positive' do
+      expect(test_range.my_none?(&:positive?)).to eq(false)
     end
   end
 end
