@@ -78,7 +78,7 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'return false if any element of the array for which the block returns false' do
-      expect([10, 18, 19].my_any? { |num| num >= 20 }).to eq(false)
+      expect([10, 18, 19].my_any? { |num| num >= 20 }).to_not eq(true)
     end
 
     it 'return true if any element of the array matches the regular expression' do
@@ -86,11 +86,11 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'return false if any element of the array does not match the regular expression' do
-      expect(test_arr.my_any?(/D/)).to eq(false)
+      expect(test_arr.my_any?(/D/)).to_not eq(true)
     end
 
     it 'return false if any element of the hash does not match the regular expression' do
-      expect(test_hash.my_any? { |_k, v| v.is_a? String }).to eq(false)
+      expect(test_hash.my_any? { |_k, v| v.is_a? String }).to_not eq(true)
     end
 
     it 'return true if any element of the hash does not match the regular expression' do
@@ -98,7 +98,7 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'checks if any element of the range is negative' do
-      expect(test_range.my_any?(&:negative?)).to eq(false)
+      expect(test_range.my_any?(&:negative?)).to_not eq(true)
     end
 
     it 'checks if any element of the range is positive' do
@@ -116,15 +116,15 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'return false if all element of the array for which the block returns false' do
-      expect([10, 18, 19].my_all? { |num| num >= 20 }).to eq(false)
+      expect([10, 18, 19].my_all? { |num| num >= 20 }).to_not eq(true)
     end
 
     it 'return false if all element of the array does not match the regular expression' do
-      expect(test_arr.my_all?(/D/)).to eq(false)
+      expect(test_arr.my_all?(/D/)).to_not eq(true)
     end
 
     it 'return false if all element of the hash does not match the regular expression' do
-      expect(test_hash.my_all? { |_k, v| v.is_a? String }).to eq(false)
+      expect(test_hash.my_all? { |_k, v| v.is_a? String }).to_not eq(true)
     end
 
     it 'return true if all element of the hash does not match the regular expression' do
@@ -132,7 +132,7 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'checks if all element of the range is negative' do
-      expect(test_range.my_all?(&:negative?)).to eq(false)
+      expect(test_range.my_all?(&:negative?)).to_not eq(true)
     end
 
     it 'checks if all element of the range is positive' do
@@ -150,7 +150,7 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'return false if none element of the array for which the block returns false' do
-      expect([10, 18, 19].my_none? { |num| num <= 20 }).to eq(false)
+      expect([10, 18, 19].my_none? { |num| num <= 20 }).to_not eq(true)
     end
 
     it 'return true if none element of the array does not match the regular expression' do
@@ -158,7 +158,7 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'return false if none element of the array does not match the regular expression' do
-      expect(test_arr.my_none?(/d/)).to eq(false)
+      expect(test_arr.my_none?(/d/)).to_not eq(true)
     end
 
     it 'return false if none element of the hash does not match the regular expression' do
@@ -166,7 +166,7 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'return true if none element of the hash does not match the regular expression' do
-      expect(test_hash.my_none? { |_k, v| v.is_a? Integer }).to eq(false)
+      expect(test_hash.my_none? { |_k, v| v.is_a? Integer }).to_not eq(true)
     end
 
     it 'checks if none element of the range is negative' do
@@ -174,7 +174,7 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'checks if none element of the range is positive' do
-      expect(test_range.my_none?(&:positive?)).to eq(false)
+      expect(test_range.my_none?(&:positive?)).to_not eq(true)
     end
   end
 
@@ -228,19 +228,19 @@ RSpec.describe 'Enumerable' do
 
   describe 'my_inject' do
     it 'returns the Sum of all the element of the array' do
-      expect(num_arr.my_inject(:+)).to eql(num_arr.inject(:+))
+      expect(num_arr.my_inject(:+)).to eq(num_arr.inject(:+))
     end
 
     it 'returns the Sum of all the element of the range' do
-      expect(test_range.my_inject { |total, item| total + item }).to eql(test_range.inject { |total, item| total + item })
+      expect(test_range.my_inject { |total, item| total + item }).to eq(test_range.inject { |total, item| total + item })
     end
 
     it 'multiplies numbers inside an array or range when an accumulator and a symbol are passed as arguments' do
-      expect((1..10).my_inject(2, :*)).to eql(7_257_600)
+      expect((1..10).my_inject(2, :*)).to eq(7_257_600)
     end
 
     it 'executes and return the result when an array or a range range is given with proc' do
-      expect(test_arr.my_inject(&test_search)).to eql(test_arr.my_inject(&test_search))
+      expect(test_arr.my_inject(&test_search)).to eq(test_arr.my_inject(&test_search))
     end
   end
 end

@@ -48,6 +48,17 @@ cd enumerable-methods
 ```
 Lastly run either of the commands listed in the getting started section above.
 
+#### Testing
+
+##### Install Rspec
+
+~~~bash
+$ gem install rspec
+~~~
+
+To test the code, run `rspec` from root of the folder using terminal.
+> Rspec is used for the test.
+
 ## Authors
 
 👤 **Ntwali Heritier**
