@@ -18,15 +18,15 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'returns every value of the number array in the existing order' do
-      expect(num_arr.my_each { |x| x }).to eq(num_arr.each { |x| x })
+      expect(num_arr.my_each { |x| x }).to eq(num_arr.each { |x| })
     end
 
     it 'returns every value of the range in the existing order' do
-      expect(test_range.my_each { |el| el }).to eq(test_range.each { |el| el })
+      expect(test_range.my_each { |el| el }).to eq(test_range.each { |el| })
     end
 
     it 'returns every value of the hash in the existing order' do
-      expect(test_hash.my_each { |k, _v| k }).to eq(test_hash.each { |k, _v| k })
+      expect(test_hash.my_each { |k, _v| k }).to eq(test_hash.each { |k, _v| })
     end
   end
 
@@ -41,15 +41,15 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'returns each element in the array with its index' do
-      expect(num_arr.my_each_with_index { |x, i| puts "#{i} -> #{x}"}).to eq(num_arr.each_with_index { |x, i| puts "#{i} -> #{x}"})
+      expect(num_arr.my_each_with_index { |x, i| puts "#{i} -> #{x}" }).to eq(num_arr.each_with_index { |x, i| puts "#{i} -> #{x}" })
     end
 
     it 'returns each element in a range with its index' do
-      expect(test_range.my_each_with_index { |x, i| puts "#{i} -> #{x}"}).to eq(test_range.each_with_index { |x, i| puts "#{i} -> #{x}"})
+      expect(test_range.my_each_with_index { |x, i| puts "#{i} -> #{x}" }).to eq(test_range.each_with_index { |x, i| puts "#{i} -> #{x}" })
     end
 
     it 'returns each key-value pair and their index in a hash' do
-      expect(test_hash.my_each_with_index { |k, v| puts "#{k} -> #{v}"}).to eq(test_hash.each_with_index { |k, v| puts "#{k} -> #{v}"})
+      expect(test_hash.my_each_with_index { |k, v| puts "#{k} -> #{v}" }).to eq(test_hash.each_with_index { |k, v| puts "#{k} -> #{v}" })
     end
   end
 
@@ -74,11 +74,11 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'return true if any element of the array for which the block returns true' do
-      expect([10, 18, 19].my_any? { |num| num > 13}).to eq(true)
+      expect([10, 18, 19].my_any? { |num| num > 13 }).to eq(true)
     end
 
     it 'return false if any element of the array for which the block returns false' do
-      expect([10, 18, 19].my_any? { |num| num >= 20}).to eq(false)
+      expect([10, 18, 19].my_any? { |num| num >= 20 }).to eq(false)
     end
 
     it 'return true if any element of the array matches the regular expression' do
@@ -90,11 +90,11 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'return false if any element of the hash does not match the regular expression' do
-      expect(test_hash.my_any? { |_k, v| v.is_a? String}).to eq(false)
+      expect(test_hash.my_any? { |_k, v| v.is_a? String }).to eq(false)
     end
 
     it 'return true if any element of the hash does not match the regular expression' do
-      expect(test_hash.my_any? { |_k, v| v.is_a? Integer}).to eq(true)
+      expect(test_hash.my_any? { |_k, v| v.is_a? Integer }).to eq(true)
     end
 
     it 'checks if any element of the range is negative' do
@@ -112,11 +112,11 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'return true if all element of the array for which the block returns true' do
-      expect([10, 18, 19].my_all? { |num| num > 9}).to eq(true)
+      expect([10, 18, 19].my_all? { |num| num > 9 }).to eq(true)
     end
 
     it 'return false if all element of the array for which the block returns false' do
-      expect([10, 18, 19].my_all? { |num| num >= 20}).to eq(false)
+      expect([10, 18, 19].my_all? { |num| num >= 20 }).to eq(false)
     end
 
     it 'return false if all element of the array does not match the regular expression' do
@@ -124,11 +124,11 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'return false if all element of the hash does not match the regular expression' do
-      expect(test_hash.my_all? { |_k, v| v.is_a? String}).to eq(false)
+      expect(test_hash.my_all? { |_k, v| v.is_a? String }).to eq(false)
     end
 
     it 'return true if all element of the hash does not match the regular expression' do
-      expect(test_hash.my_all? { |_k, v| v.is_a? Integer}).to eq(true)
+      expect(test_hash.my_all? { |_k, v| v.is_a? Integer }).to eq(true)
     end
 
     it 'checks if all element of the range is negative' do
@@ -146,11 +146,11 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'return true if none element of the array for which the block returns true' do
-      expect([10, 18, 19].my_none? { |num| num < 9}).to eq(true)
+      expect([10, 18, 19].my_none? { |num| num < 9 }).to eq(true)
     end
 
     it 'return false if none element of the array for which the block returns false' do
-      expect([10, 18, 19].my_none? { |num| num <= 20}).to eq(false)
+      expect([10, 18, 19].my_none? { |num| num <= 20 }).to eq(false)
     end
 
     it 'return true if none element of the array does not match the regular expression' do
@@ -162,11 +162,11 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'return false if none element of the hash does not match the regular expression' do
-      expect(test_hash.my_none? { |_k, v| v.is_a? String}).to eq(true)
+      expect(test_hash.my_none? { |_k, v| v.is_a? String }).to eq(true)
     end
 
     it 'return true if none element of the hash does not match the regular expression' do
-      expect(test_hash.my_none? { |_k, v| v.is_a? Integer}).to eq(false)
+      expect(test_hash.my_none? { |_k, v| v.is_a? Integer }).to eq(false)
     end
 
     it 'checks if none element of the range is negative' do
@@ -192,7 +192,7 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'return the number of occurrences of the block condition in the array' do
-      expect(test_arr.my_count { |string| string.length == 2}).to eq(test_arr.count { |string| string.length == 2})
+      expect(test_arr.my_count { |string| string.length == 2 }).to eq(test_arr.count { |string| string.length == 2 })
     end
 
     it 'return the number of occurrences of the block condition in the range' do
@@ -206,11 +206,11 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'returns a transformed array according to the block given' do
-      expect(num_arr.my_map { |i| i * i}).to eq(num_arr.map { |i| i * i})
+      expect(num_arr.my_map { |i| i * i }).to eq(num_arr.map { |i| i * i })
     end
 
     it 'returns a transformed array according to the block given to the range' do
-      expect(test_range.my_map { |i| i + i}).to eq(test_range.map { |i| i + i})
+      expect(test_range.my_map { |i| i + i }).to eq(test_range.map { |i| i + i })
     end
 
     it 'returns a transformed array according to the block given' do
@@ -218,7 +218,7 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'returns a transformed array according to the block given' do
-      expect(test_hash.my_map { |_v, i| i.to_s}).to eq(test_hash.map { |_v, i| i.to_s})
+      expect(test_hash.my_map { |_v, i| i.to_s }).to eq(test_hash.map { |_v, i| i.to_s })
     end
 
     it 'accepts proc and lambdas and calls them as a block' do
