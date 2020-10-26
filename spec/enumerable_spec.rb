@@ -37,7 +37,7 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'returns each element in the array with its index' do
-      expect(test_arr.my_each_with_index { |el, i| puts "#{el} : #{i}"}).to eq(test_arr.each_with_index { |el, i| puts "#{el} : #{i}"})
+      expect(test_arr.my_each_with_index { |el, i| puts "#{el} : #{i}" }).to eq(test_arr.each_with_index { |el, i| puts "#{el} : #{i}" })
     end
 
     it 'returns each element in the array with its index' do
@@ -210,7 +210,7 @@ RSpec.describe 'Enumerable' do
     end
 
     it 'returns a transformed array according to the block given to the range' do
-      expect(test_range.my_map { |i| i * i}).to eq(test_range.map { |i| i * i})
+      expect(test_range.my_map { |i| i + i}).to eq(test_range.map { |i| i + i})
     end
 
     it 'returns a transformed array according to the block given' do
